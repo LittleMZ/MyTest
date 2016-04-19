@@ -3,7 +3,6 @@ package com.myjavatest.PokerTest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.TreeSet;
 
 /**
  * Created by M on 16/4/18.
@@ -85,8 +84,8 @@ public class Poker {
         String[] numPokers = {"3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "2"};
 
         int index = 0;
-        for (String color : colors) {
-            for (String numPoker : numPokers) {
+        for (String numPoker : numPokers) {
+            for (String color : colors) {
                 pokerContent.put(String.valueOf(index), color.concat(numPoker));
                 index++;
             }
@@ -110,13 +109,13 @@ public class Poker {
             //发牌
             for (int x = Integer.valueOf(playType.numOfDiPai); x < poker.size(); x++) {
                 if (x % Integer.valueOf(playType.numOfPlayer) == i) {
-                    player.myPoker.add(poker.get(x));
+                    player.myPoker.add(Integer.valueOf(poker.get(x)));
                 }
             }
             //底牌
             if (player.diPai == null || player.diPai.size() == 0) {
                 for (int y = 0; y < Integer.valueOf(playType.numOfDiPai); y++) {
-                    player.diPai.add(poker.get(y));
+                    player.diPai.add(Integer.valueOf(poker.get(y)));
                 }
             }
             playerMap.put(i, player);
@@ -132,19 +131,20 @@ public class Poker {
         System.out.println("您玩的牌类型为," + playType.nameOfPlay + ",玩家数共," + playType.numOfPlayer + "位,各玩家牌情况如下:");
 
         for (int i = 0; i < Integer.valueOf(playType.numOfPlayer); i++) {
-            System.out.print("玩家" + (i + 1) + "的牌为:");
-            TreeSet<String> myPoker = playerMap.get(i).myPoker;
-            for (String poke : myPoker) {
-                System.out.print(poke + ",");
+            System.out.print("玩家" + (i + 1) + "的牌为:{");
+            Collections.sort(playerMap.get(i).myPoker);
+            for (Integer poke : playerMap.get(i).myPoker) {
+                System.out.print(pokerContent.get(String.valueOf(poke)) + " ");
             }
-            System.out.println();
+            System.out.println("}");
         }
 
-        System.out.print("底牌为:");
-        for (String poke : playerMap.get(0).diPai) {
-            System.out.print(poke + ",");
+        System.out.print("底牌为:{");
+        Collections.sort(playerMap.get(0).diPai);
+        for (Integer poke : playerMap.get(0).diPai) {
+            System.out.print(pokerContent.get(String.valueOf(poke)) + " ");
         }
-        System.out.println();
+        System.out.println("}");
     }
 
     /**
