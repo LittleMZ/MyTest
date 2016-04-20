@@ -9,14 +9,14 @@ import java.util.HashMap;
  */
 public class Poker {
     //用来翻译扑克牌map
-    private static HashMap<String, String> pokerContent = new HashMap<String, String>();
+    private static HashMap<Integer, String> pokerContent = new HashMap<Integer, String>();
     //牌的副数
     private static String numOfCoper;
     //牌
-    private static ArrayList<String> poker = new ArrayList<String>();
+    private static ArrayList<Integer> poker = new ArrayList<Integer>();
     //玩家Map
     private static HashMap<Integer, Player> playerMap = new HashMap<Integer, Player>();
-    //玩牌类型
+    //玩牌类型,枚举值
     private static PlayType playType;
 
     public static String getNumOfCoper() {
@@ -27,11 +27,11 @@ public class Poker {
         return playerMap;
     }
 
-    public static ArrayList<String> getPoker() {
+    public static ArrayList<Integer> getPoker() {
         return poker;
     }
 
-    public static HashMap<String, String> getPokerContent() {
+    public static HashMap<Integer, String> getPokerContent() {
         return pokerContent;
     }
 
@@ -70,7 +70,7 @@ public class Poker {
     private void getShufflePoker(String numOfCoper) {
         for (int x = 0; x < Integer.valueOf(numOfCoper); x++) {
             for (int y = 0; y < pokerContent.size(); y++) {
-                poker.add(String.valueOf(y));
+                poker.add(y);
             }
         }
         Collections.shuffle(poker);
@@ -86,13 +86,13 @@ public class Poker {
         int index = 0;
         for (String numPoker : numPokers) {
             for (String color : colors) {
-                pokerContent.put(String.valueOf(index), color.concat(numPoker));
+                pokerContent.put(index, color.concat(numPoker));
                 index++;
             }
         }
-        pokerContent.put(String.valueOf(index), "小王");
+        pokerContent.put(index, "小王");
         index++;
-        pokerContent.put(String.valueOf(index), "大王");
+        pokerContent.put(index, "大王");
     }
 
     /**
@@ -109,13 +109,13 @@ public class Poker {
             //发牌
             for (int x = Integer.valueOf(playType.numOfDiPai); x < poker.size(); x++) {
                 if (x % Integer.valueOf(playType.numOfPlayer) == i) {
-                    player.myPoker.add(Integer.valueOf(poker.get(x)));
+                    player.myPoker.add(poker.get(x));
                 }
             }
             //底牌
             if (player.diPai == null || player.diPai.size() == 0) {
                 for (int y = 0; y < Integer.valueOf(playType.numOfDiPai); y++) {
-                    player.diPai.add(Integer.valueOf(poker.get(y)));
+                    player.diPai.add(poker.get(y));
                 }
             }
             playerMap.put(i, player);
@@ -126,6 +126,7 @@ public class Poker {
     public void lookPoker() {
         if (playerMap == null || playerMap.size() == 0) {
             System.out.println("您还没有完成发牌!!");
+            return;
         }
 
         System.out.println("您玩的牌类型为," + playType.nameOfPlay + ",玩家数共," + playType.numOfPlayer + "位,各玩家牌情况如下:");
@@ -134,7 +135,7 @@ public class Poker {
             System.out.print("玩家" + (i + 1) + "的牌为:{");
             Collections.sort(playerMap.get(i).myPoker);
             for (Integer poke : playerMap.get(i).myPoker) {
-                System.out.print(pokerContent.get(String.valueOf(poke)) + " ");
+                System.out.print(pokerContent.get(poke) + " ");
             }
             System.out.println("}");
         }
@@ -142,7 +143,7 @@ public class Poker {
         System.out.print("底牌为:{");
         Collections.sort(playerMap.get(0).diPai);
         for (Integer poke : playerMap.get(0).diPai) {
-            System.out.print(pokerContent.get(String.valueOf(poke)) + " ");
+            System.out.print(pokerContent.get(poke) + " ");
         }
         System.out.println("}");
     }

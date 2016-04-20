@@ -7,8 +7,8 @@ import com.myjavatest.PokerTest.Poker;
  */
 public class MainTestForPoker {
     public static void main(String[] args) {
-        Poker poker=new Poker(Poker.PlayType.douDiZhu1);
 
+        Poker poker=new Poker(Poker.PlayType.douDiZhu2);
         poker.givePoker();
         poker.lookPoker();
     }
